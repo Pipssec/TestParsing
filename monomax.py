@@ -26,5 +26,4 @@ for x in range(len(adress)):
     })
 
 with open("monomax_res.json", "w") as write_file:
-     json.dump(jsons, write_file, indent=4)
-
+     json.dump(jsons, write_file, indent=4, ensure_ascii=False)
