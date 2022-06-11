@@ -8,7 +8,7 @@ soup = BeautifulSoup(response.text, 'lxml')
 adress = soup.find_all('td', class_='mp-table-address')
 time = soup.find_all('td', class_='mp-table-hours')
 name = soup.find_all('span', class_='mp-pharmacy-head')
-# print(adress[0].text)
+
 class pharmacy:
     def __init__(self, adres, name, phones, hours):
         self.address = adres
@@ -25,7 +25,7 @@ for x in range(len(adress)):
     names = name[x].text
     hours = time[x].text
     sort.append(pharmacy(adres, names, phone, hours))
-    print(sort[x].__dict__)
+    
 
 jsons = []
 for x in range(len(sort)):
