@@ -1,0 +1,34 @@
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+import time
+from bs4 import BeautifulSoup
+import json
+
+
+
+driver = webdriver.Chrome()
+driver.get("https://www.kfc.ru/restaurants/")
+time.sleep(5)
+buttons = driver.find_elements(By.CSS_SELECTOR, '.button-light')
+buttons[1].click()
+soup = BeautifulSoup(driver.page_source, 'html.parser')
+driver.quit()
+name = soup.find_all('div', class_='_3zgUWz1HVh t-xl mb-24 condensed')
+adress = soup.find_all('div', class_='_2XllDYbBnt t-m-sm mt-8')
+phone = soup.find_all('span', class_='_2p5x-cM6u6 c-primary')
+time = soup.find_all('div', class_='_2I2E1lZDf7 t-m-sm mt-8')
+del time[0::2]
+jsons=[]
+
+for x  in range(len(name)):
+    jsons.append(
+        {
+            "address": adress[x].text,
+            "name": name[x].text,
+            "phones": phone[x].text,
+            "working_hours": time[x].text
+        }
+    )
+
+with open("kfc_res.json", "w") as write_file:
+    json.dump(jsons, write_file, indent=4, ensure_ascii=False)
